@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+.iconbtn{
+  transition: all .2s !important;
+}
+.iconbtn:hover{
+  background-color: rgba(165, 165, 165, 0.541) !important;
+}
+.TodoCard{
+  transition: all .2s !important;
+}
+.TodoCard:hover{
+padding-bottom: 10px ;
+padding-top: 10px;
+box-shadow: 0 7px 7px rgba(0,0,0,0.5 );
+}
+@font-face {
+  font-family: Alexandria;
+  src: url("/public/Fonts/Alexandria-Black.ttf");
+  font-weight: 200px;
+}
+@font-face {
+  font-family: Alexandria;
+  src: url("/public/Fonts/Alexandria-Light.ttf");
+    font-weight: 900px;
+}
+@font-face {
+  font-family: Alexandria;
+  src: url("/public/Fonts/Alexandria-Light.ttf");
+    font-weight: normal;
+}
+@font-face {
+  font-family: Alexandria;
+  src: url("/public/Fonts/Alexandria-Light.ttf");
+    font-weight: bold;
+}
