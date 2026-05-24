@@ -8,51 +8,51 @@ import Divider from '@mui/material/Divider';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Todo from './Todo';
+import { v4 as uuidv4 } from "uuid";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { v4 as uuidv4 } from "uuid";
+import { TodosContext } from '../Contexts/TodosContext';
 import {useState} from "react"
-
-const initialtodos=[
-    { id:uuidv4(),
-      title:"المهمه الاولي ",  
-      details:" قراءه القراءن الكريم",
-      isCompleleted:false
-    }
-,
-    {  
-     id:uuidv4(),
-      title:"المهمه التانيه",  
-      details:"صلاه خمس فروض",
-      isCompleleted:false
-    }
-    ,
-    {id:uuidv4(),
-      title:"المهمه التالته",  
-      details:"ممارسه الرياضه ",
-      isCompleleted:false
-    
- }
-
-]
-
+import { useContext } from 'react';
+import { useEffect } from 'react';
  
 export default function TodoList() {
+    const {todos,settodos}=useContext(TodosContext)
     const [titleInput,setTitleInput]=useState("")
-    const [todo,settodo]=useState(initialtodos)
-    const todoJsx=todo.map((x)=>{return<Todo key={x.id} title={x.title} details={x.details}/>})
+     const[changetype,setChangetype]=useState("all")
+  
+    const completed=todos.filter((x)=>{return x.isCompleted})
+    const Notcompleted=todos.filter((x)=>{return !x.isCompleted})
+    let DisplayTodosType=todos
+    if(changetype==="completed"){DisplayTodosType=completed}
+    else if(changetype==="notCompleted"){DisplayTodosType=Notcompleted}
+    else{DisplayTodosType=todos}
+    const todoJsx=DisplayTodosType.map((x)=>{return<Todo  key={x.id}  todo={x} />})
+    useEffect(()=>{
+ const storageTodo=JSON.parse(localStorage.getItem("todos"))
+ settodos(storageTodo)
+    },[])
     function handeltodo(){ 
    const newTodo={
     id:uuidv4(),
     title:titleInput,
     details:"",
-    isCompleleted:false
+    isCompleted:false
 }
-    settodo([...todo,newTodo])
+
+const UpdatedTodos=[...todos,newTodo]
+  settodos(UpdatedTodos)
+  localStorage.setItem("todos",JSON.stringify(UpdatedTodos))
+  setTitleInput("") 
  }
+
+ function changeDisplayeType(e){
+setChangetype(e.target.value) 
+}
   return (
-    <React.Fragment>
+    
+     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="sm">
             <Card sx={{ minWidth: 275 }}>
@@ -60,14 +60,16 @@ export default function TodoList() {
         <Typography variant='h2'>مهامى </Typography>
         <Divider/>
   <ToggleButtonGroup
+     value={changetype}
+     onChange={changeDisplayeType}
       color="primary"
       exclusive
       aria-label="Platform"
       style={{marginTop:"20px", direction:"ltr"}} 
     >
-      <ToggleButton value="right">الغير منجز</ToggleButton>
-      <ToggleButton value="center">المنجز</ToggleButton>
-      <ToggleButton value="left" >الكل</ToggleButton>
+      <ToggleButton value="notCompleted">الغير منجز</ToggleButton>
+      <ToggleButton value="completed">المنجز</ToggleButton>
+      <ToggleButton value="all" >الكل</ToggleButton>
     </ToggleButtonGroup>
     {todoJsx}
      {/*  input and submit button */}
