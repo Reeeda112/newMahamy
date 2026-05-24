@@ -32,6 +32,7 @@ export default function TodoList() {
     useEffect(()=>{
  const storageTodo=JSON.parse(localStorage.getItem("todos"))
  settodos(storageTodo)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     function handeltodo(){ 
    const newTodo={
