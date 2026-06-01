@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -30,9 +31,9 @@ export default function TodoList() {
     else{DisplayTodosType=todos}
     const todoJsx=DisplayTodosType.map((x)=>{return<Todo  key={x.id}  todo={x} />})
     useEffect(()=>{
- const storageTodo=JSON.parse(localStorage.getItem("todos"))
+ const storageTodo=JSON.parse(localStorage.getItem("todos"))??[]
  settodos(storageTodo)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
     },[])
     function handeltodo(){ 
    const newTodo={
@@ -82,6 +83,7 @@ setChangetype(e.target.value)
         <Grid size={4} >
        <Button style={{width:"100%", height:"100%"}} variant="contained"
        onClick={()=>{handeltodo()}}
+       disabled={titleInput.length===0}
        >اضافة</Button>
         </Grid>
          </Grid>
